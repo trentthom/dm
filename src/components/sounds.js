@@ -1,0 +1,32 @@
+const sounds = [
+  {
+    id:1, sound: "kick", url:"https://s3.amazonaws.com/freecodecamp/drums/punchy_kick_1.mp3"
+  },
+  {
+    id:2, sound: "snare", url:"https://s3.amazonaws.com/freecodecamp/drums/Brk_Snr.mp3"
+  },
+  {
+    id:3, sound: "rimtap" , url:"https://s3.amazonaws.com/freecodecamp/drums/side_stick_1.mp3"
+  },
+  {
+    id:4, sound: "Hi Hat", url:"https://s3.amazonaws.com/freecodecamp/drums/Bld_H1.mp3"
+  },
+  {
+    id:5, sound: "kick", url:"https://s3.amazonaws.com/freecodecamp/drums/Dry_Ohh.mp3"
+  },
+  {
+    id:6, sound: "kick", url:"https://s3.amazonaws.com/freecodecamp/drums/Give_us_a_light.mp3"
+  },
+  {
+    id:7, sound: "Chord3", url:"https://s3.amazonaws.com/freecodecamp/drums/Chord_3.mp3"
+  },
+  {
+    id:8, sound: "Chord2", url:"https://s3.amazonaws.com/freecodecamp/drums/Chord_2.mp3"
+  },
+  {
+    id:9, sound: "Chord1", url:"https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3"
+  }
+
+]
+
+export default sounds

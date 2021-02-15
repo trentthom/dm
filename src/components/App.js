@@ -1,13 +1,16 @@
+import React, { Component } from "react"
 import Drumpad from './Drumpad'
 
-function App() {
 
+export default class extends Component {
 
-  return (
-    <div className="App">
-      <Drumpad />
-    </div>
-  );
+  render(){
+    return(
+      <div>
+        <h1>PLT Drum9</h1>
+          <Drumpad/>
+
+      </div>
+    )
+  }
 }
-
-export default App;
