@@ -1,22 +1,35 @@
 import React, { Component } from "react"
-// import Soundmap from './Soundmap' deadcode
-import sounds from './sounds'
+xios'
+import _ from 'underscore'
+
+// import sounds from './sounds'
+const SERVER_URL = 'https://drum-machine-server.herokuapp.com/sounds.json'
 
 class Drumpad extends React.Component {
-  constructor() {
-    super();
-
+  constructor(){
+    super()
     this.state = {
-      bpm: 120,
-      displayText: ''
+      sounds: []
     }
-    this.updateDisplayText = this.updateDisplayText.bind(this);
+    const soundsData = () => {
+      axios.get(SERVER_URL).then((response) => {
+        console.log(response.data)
+        const ninePad = _.where(response.data,{ drumpad_id: 3})
+        this.setState({sounds: ninePad})
+      })
+    }
+    soundsData();
   }
 
-  updateDisplayText(text) {
-    this.setState({
-      displayText: text
-    });
+
+
+  playAudio(event) {
+    const audioId = Number(event.target.textContent)
+    console.log(audioId)
+    const audioEl = document.getElementsByClassName('audio-element')[audioId -13]
+    console.log(audioEl)
+    audioEl.play()
+>>>>>>> 40a82d2fe8c2b0727fa8b67ceb2659769b4c5394
   }
 
   playAudio(event) {
@@ -35,8 +48,10 @@ class Drumpad extends React.Component {
       <div className="outterdiv">
         <div className="soundname">{ this.state.displayText }</div>
         <div className="row">
-          {sounds.map((sound) =>
-            <button onClick={this.playAudio} key={sound.id} className="button" id={sound.sound}>
+<<<<<<< HEAD=
+          {this.state.sounds.map((sound) =>
+            <button onClick={this.playAudio} key={sound.id} className="button">
+>>>>>>> 40a82d2fe8c2b0727fa8b67ceb2659769b4c5394
               {sound.id}
               <audio className="audio-element">
                 <source src={sound.url}></source>
@@ -47,7 +62,6 @@ class Drumpad extends React.Component {
       </div>
     )
   }
-
 }
 export default Drumpad ;
 
