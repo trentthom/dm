@@ -10,13 +10,7 @@ class Drumpad extends React.Component {
       bpm: 120,
       displayText: ''
     }
-    this.updateDisplayText = this.updateDisplayText.bind(this);
-  }
-
-  updateDisplayText(text) {
-    this.setState({
-      displayText: text
-    });
+      this.playAudio = this.playAudio.bind(this);
   }
 
   playAudio(event) {
@@ -26,7 +20,8 @@ class Drumpad extends React.Component {
     console.log(audioEl);
     const soundName = event.target.id;
     console.log(soundName);
-    updateDisplayText(soundName);
+
+    this.setState({displayText: soundName});
     audioEl.play();
   }
 
