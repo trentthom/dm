@@ -1,6 +1,7 @@
-import React, { Component } from "react"
-import axios from 'axios'
-import _ from 'underscore'
+import React, { Component } from "react";
+import axios from 'axios';
+import _ from 'underscore';
+import Loop from './Loop';
 
 // import sounds from './sounds'
 const SERVER_URL = 'https://drum-machine-server.herokuapp.com/sounds.json'
@@ -24,8 +25,6 @@ class Drumpad extends React.Component {
     soundsData();
   }
 
-
-
   playAudio(event) {
     const audioId = Number(event.target.textContent)
     console.log(audioId)
@@ -35,7 +34,7 @@ class Drumpad extends React.Component {
     console.log(soundName);
 
     this.setState({displayText: soundName});
-    audioEl.play()
+    audioEl.play();
   }
 
   render() {
@@ -51,6 +50,9 @@ class Drumpad extends React.Component {
               </audio>
             </button>
           )}
+        </div>
+        <div>
+          <Loop />
         </div>
       </div>
     )
