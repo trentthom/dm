@@ -1,13 +1,32 @@
 import React, { Component } from "react"
-import Soundmap from './Soundmap'
-import sounds from './sounds'
+import axios from 'axios'
+import _ from 'underscore'
+
+// import sounds from './sounds'
+const SERVER_URL = 'https://drum-machine-server.herokuapp.com/sounds.json'
 
 class Drumpad extends React.Component {
+  constructor(){
+    super()
+    this.state = {
+      sounds: []
+    }
+    const soundsData = () => {
+      axios.get(SERVER_URL).then((response) => {
+        console.log(response.data)
+        const ninePad = _.where(response.data,{ drumpad_id: 3})
+        this.setState({sounds: ninePad})
+      })
+    }
+    soundsData();
+  }
+
+
 
   playAudio(event) {
     const audioId = Number(event.target.textContent)
     console.log(audioId)
-    const audioEl = document.getElementsByClassName('audio-element')[audioId -1]
+    const audioEl = document.getElementsByClassName('audio-element')[audioId -13]
     console.log(audioEl)
     audioEl.play()
   }
@@ -18,7 +37,7 @@ class Drumpad extends React.Component {
       <div className="outterdiv">
         <div className="soundname">Sound name</div>
         <div className="row">
-          {sounds.map((sound) =>
+          {this.state.sounds.map((sound) =>
             <button onClick={this.playAudio} key={sound.id} className="button">
               {sound.id}
               <audio className="audio-element">
@@ -30,7 +49,6 @@ class Drumpad extends React.Component {
       </div>
     )
   }
-
 }
 export default Drumpad ;
 
