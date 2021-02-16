@@ -1,7 +1,7 @@
 body{
   /* max-width: 500px;
   margin:0 auto; */
-  font-family: arial;
+
   background-color: grey;
 
 }
@@ -41,6 +41,7 @@ button:hover{
 .row{
   margin-left: 33px;
   height:350px;
+  margin-top: 35px;
 
 }
 
@@ -56,9 +57,11 @@ button:hover{
 
 h1 {
   text-align: center;
+  font-family: 'Monoton', cursive;
 }
 
 .soundname{
+  font-family: 'Monoton', cursive;
   max-width: 380px;
   text-align: center;
   height: 65px;
@@ -67,10 +70,27 @@ h1 {
   font-size: 30px;
   border-radius: 7px;
   color: teal;
-  font-weight: bold;
+
 
 }
 
 .metronome {
   color: white;
+}
+
+.metrobutton  {
+  text-align: center;
+}
+
+.metrobuttonstart{
+  background-color: teal;
+  box-shadow: 0 10px 10px black, 0 1px 4px rgba(0, 0, 0, 0.24);
+  text-align: center;
+  border: 1px solid #000;
+  order: 1px solid #000;
+  -webkit-transition: all 0.35s ease-in-out;
+  -moz-transition: all 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out;
+  border-radius: 2px;
+  margin: 5px;
 }

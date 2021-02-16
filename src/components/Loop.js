@@ -24,12 +24,14 @@ function loopStop() {
 function Loop() {
   return (
     <div className="loop">
-      <button onClick={loopStart} className="play">
-        Start Metronome
-      </button>
-      <button onClick={loopStop} className="stop">
-        Stop Metronome
-      </button>
+      <div className="metrobutton">
+        <button onClick={loopStart} className="metrobuttonstart">
+          Start Metronome
+        </button>
+        <button onClick={loopStop} className="metrobuttonstart">
+          Stop Metronome
+        </button>
+      </div>
     </div>
   );
 }
