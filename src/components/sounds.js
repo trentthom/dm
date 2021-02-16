@@ -9,13 +9,13 @@ const sounds = [
     id:3, sound: "rimtap" , url:"https://s3.amazonaws.com/freecodecamp/drums/side_stick_1.mp3"
   },
   {
-    id:4, sound: "Hi Hat", url:"https://s3.amazonaws.com/freecodecamp/drums/Bld_H1.mp3"
+    id:4, sound: "Closed Hi Hat", url:"https://s3.amazonaws.com/freecodecamp/drums/Bld_H1.mp3"
   },
   {
-    id:5, sound: "kick", url:"https://s3.amazonaws.com/freecodecamp/drums/Dry_Ohh.mp3"
+    id:5, sound: "Open Hi Hat", url:"https://s3.amazonaws.com/freecodecamp/drums/Dry_Ohh.mp3"
   },
   {
-    id:6, sound: "kick", url:"https://s3.amazonaws.com/freecodecamp/drums/Give_us_a_light.mp3"
+    id:6, sound: "Shaker", url:"https://s3.amazonaws.com/freecodecamp/drums/Give_us_a_light.mp3"
   },
   {
     id:7, sound: "Chord3", url:"https://s3.amazonaws.com/freecodecamp/drums/Chord_3.mp3"
