@@ -1,8 +1,9 @@
 import React, { Component } from "react"
 import axios from 'axios'
 import _ from 'underscore'
+import ReactDOM from 'react-dom'
 
-// import sounds from './sounds'
+
 const SERVER_URL = 'https://drum-machine-server.herokuapp.com/sounds.json'
 
 class Drumpad extends React.Component {
@@ -13,6 +14,8 @@ class Drumpad extends React.Component {
       sounds: []
     }
     this.playAudio = this.playAudio.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+    // this.onKeyUp = this.onKeyUp.bind(this);
 
     const soundsData = () => {
       axios.get(SERVER_URL).then((response) => {
@@ -24,19 +27,44 @@ class Drumpad extends React.Component {
     soundsData();
   }
 
+  onKeyDown(event) {
+    this.state.sounds.map((sound) => {
+      if( event.keyCode === sound.key_code){
+        const keySound = sound
+        const soundId = keySound.id
+        const audioEl = document.getElementsByClassName(soundId)[0]
+        const soundName = event.target.id;
+        this.setState({displayText: soundName});
+        audioEl.currentTime = 0;
+        audioEl.play()
+      }
+    })
+  }
+
+
+  componentDidMount(){
+    document.addEventListener('keydown', this.onKeyDown)
+    document.addEventListener('keyup', this.onKeyUp)
+  }
+
+  componentWillUnmount(){
+    document.removeEventListener('keydown', this.onKeyDown)
+    document.removeEventListener('keyup', this.onKeyUp)
+  }
 
 
   playAudio(event) {
-    const audioId = Number(event.target.textContent)
-    console.log(audioId)
-    const audioEl = document.getElementsByClassName('audio-element')[audioId -13]
-    console.log(audioEl)
+    const keyboardKey = event.target.textContent
+    const clickSound = _.findWhere(this.state.sounds, { key_trigger: keyboardKey })
+    const soundId = clickSound.id
+    const audioEl = document.getElementsByClassName(soundId)[0]
     const soundName = event.target.id;
-    console.log(soundName);
-
     this.setState({displayText: soundName});
+    audioEl.currentTime = 0;
     audioEl.play()
   }
+
+
 
   render() {
     return (
@@ -45,8 +73,8 @@ class Drumpad extends React.Component {
         <div className="row">
           {this.state.sounds.map((sound) =>
             <button onClick={this.playAudio} key={sound.id} className="button" id={sound.name}>
-              {sound.id}
-              <audio className="audio-element">
+              {sound.key_trigger}
+              <audio className={sound.id}>
                 <source src={sound.url}></source>
               </audio>
             </button>
@@ -57,54 +85,3 @@ class Drumpad extends React.Component {
   }
 }
 export default Drumpad ;
-
-
-// import React from 'react';
-// import useSound from 'use-sound';
-//
-// // const data = [{keyCode: 88, keyTrigger: 'X', id: 'kick', url: 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3' }]
-//
-//
-// class Drumpad extends React.Component {
-//
-//
-//   componentDidMount() {
-//   const audioEl = document.getElementsByClassName("audio-element")[0]
-//   audioEl.play()
-// }
-//
-// render() {
-//   return (
-//     <div>
-//     //<button onClick={componentDidMount}>bell</button>
-//       <audio className="audio-element">
-//         <source src="https://assets.coderrocketfuel.com/pomodoro-times-up.mp3"></source>
-//       </audio>
-//     </div>
-//   )
-// }
-//   // constructor(){
-//   //   super();
-//   //   this.state = {url: 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3'
-//   //   };
-//   //   this._makeItKick = this._makeItKick.bind(this);
-//   // }
-//   //
-//   //
-//   // _makeItKick() {
-//   //   console.log('kicking')
-//   //   //this.setState({url: 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3'})
-//   //   this.audio.play()
-//   //   this.audio.currentTime = 0
-//   // }
-//   //
-//   // render() {
-//   //   return(
-//   //     <div>
-//   //       <button onClick={ this._makeItKick}>kick</button>
-//   //       <audio ref={ref => this.audio = ref} src={this.props.url}></audio>
-//   //     </div>
-//   //   )
-//   // }
-// }
-// export default Drumpad;
