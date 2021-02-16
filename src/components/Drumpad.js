@@ -1,25 +1,42 @@
 import React, { Component } from "react"
-import Soundmap from './Soundmap'
+// import Soundmap from './Soundmap' deadcode
 import sounds from './sounds'
 
 class Drumpad extends React.Component {
+  constructor() {
+    super();
 
-  playAudio(event) {
-    const audioId = Number(event.target.textContent)
-    console.log(audioId)
-    const audioEl = document.getElementsByClassName('audio-element')[audioId -1]
-    console.log(audioEl)
-    audioEl.play()
+    this.state = {
+      bpm: 120,
+      displayText: ''
+    }
+    this.updateDisplayText = this.updateDisplayText.bind(this);
   }
 
+  updateDisplayText(text) {
+    this.setState({
+      displayText: text
+    });
+  }
+
+  playAudio(event) {
+    const audioId = Number(event.target.textContent);
+    console.log(audioId);
+    const audioEl = document.getElementsByClassName('audio-element')[audioId -1];
+    console.log(audioEl);
+    const soundName = event.target.id;
+    console.log(soundName);
+    updateDisplayText(soundName);
+    audioEl.play();
+  }
 
   render() {
     return (
       <div className="outterdiv">
-        <div className="soundname">Sound name</div>
+        <div className="soundname">{ this.state.displayText }</div>
         <div className="row">
           {sounds.map((sound) =>
-            <button onClick={this.playAudio} key={sound.id} className="button">
+            <button onClick={this.playAudio} key={sound.id} className="button" id={sound.sound}>
               {sound.id}
               <audio className="audio-element">
                 <source src={sound.url}></source>
