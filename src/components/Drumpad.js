@@ -1,28 +1,41 @@
 import React, { Component } from "react"
-// import Soundmap from './Soundmap' deadcode
-import sounds from './sounds'
+import axios from 'axios'
+import _ from 'underscore'
+
+// import sounds from './sounds'
+const SERVER_URL = 'https://drum-machine-server.herokuapp.com/sounds.json'
 
 class Drumpad extends React.Component {
-  constructor() {
-    super();
-
+  constructor(){
+    super()
     this.state = {
-      bpm: 120,
-      displayText: ''
+      displayText: '',
+      sounds: []
     }
-      this.playAudio = this.playAudio.bind(this);
+    this.playAudio = this.playAudio.bind(this);
+
+    const soundsData = () => {
+      axios.get(SERVER_URL).then((response) => {
+        console.log(response.data)
+        const ninePad = _.where(response.data,{ drumpad_id: 3})
+        this.setState({sounds: ninePad})
+      })
+    }
+    soundsData();
   }
 
+
+
   playAudio(event) {
-    const audioId = Number(event.target.textContent);
-    console.log(audioId);
-    const audioEl = document.getElementsByClassName('audio-element')[audioId -1];
-    console.log(audioEl);
+    const audioId = Number(event.target.textContent)
+    console.log(audioId)
+    const audioEl = document.getElementsByClassName('audio-element')[audioId -13]
+    console.log(audioEl)
     const soundName = event.target.id;
     console.log(soundName);
 
     this.setState({displayText: soundName});
-    audioEl.play();
+    audioEl.play()
   }
 
   render() {
@@ -30,8 +43,8 @@ class Drumpad extends React.Component {
       <div className="outterdiv">
         <div className="soundname">{ this.state.displayText }</div>
         <div className="row">
-          {sounds.map((sound) =>
-            <button onClick={this.playAudio} key={sound.id} className="button" id={sound.sound}>
+          {this.state.sounds.map((sound) =>
+            <button onClick={this.playAudio} key={sound.id} className="button" id={sound.name}>
               {sound.id}
               <audio className="audio-element">
                 <source src={sound.url}></source>
@@ -42,7 +55,6 @@ class Drumpad extends React.Component {
       </div>
     )
   }
-
 }
 export default Drumpad ;
 
