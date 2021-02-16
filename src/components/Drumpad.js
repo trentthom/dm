@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-xios'
+import axios from 'axios'
 import _ from 'underscore'
 
 // import sounds from './sounds'
@@ -9,8 +9,11 @@ class Drumpad extends React.Component {
   constructor(){
     super()
     this.state = {
+      displayText: '',
       sounds: []
     }
+    this.playAudio = this.playAudio.bind(this);
+
     const soundsData = () => {
       axios.get(SERVER_URL).then((response) => {
         console.log(response.data)
@@ -28,19 +31,11 @@ class Drumpad extends React.Component {
     console.log(audioId)
     const audioEl = document.getElementsByClassName('audio-element')[audioId -13]
     console.log(audioEl)
-    audioEl.play()
->>>>>>> 40a82d2fe8c2b0727fa8b67ceb2659769b4c5394
-  }
-
-  playAudio(event) {
-    const audioId = Number(event.target.textContent);
-    console.log(audioId);
-    const audioEl = document.getElementsByClassName('audio-element')[audioId -1];
-    console.log(audioEl);
     const soundName = event.target.id;
     console.log(soundName);
-    updateDisplayText(soundName);
-    audioEl.play();
+
+    this.setState({displayText: soundName});
+    audioEl.play()
   }
 
   render() {
@@ -48,10 +43,8 @@ class Drumpad extends React.Component {
       <div className="outterdiv">
         <div className="soundname">{ this.state.displayText }</div>
         <div className="row">
-<<<<<<< HEAD=
           {this.state.sounds.map((sound) =>
-            <button onClick={this.playAudio} key={sound.id} className="button">
->>>>>>> 40a82d2fe8c2b0727fa8b67ceb2659769b4c5394
+            <button onClick={this.playAudio} key={sound.id} className="button" id={sound.name}>
               {sound.id}
               <audio className="audio-element">
                 <source src={sound.url}></source>
