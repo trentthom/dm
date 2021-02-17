@@ -12,14 +12,13 @@ function bpm(bpmNumber) {
 function loopStart() {
   let loop = new Tone.Loop(time => {
     plucky.triggerAttackRelease("C4");
-  }, '4n').start(0);
+  }, '4n').start(0); // fix
     Tone.Transport.start();
 };
 
 function loopStop() {
   Tone.Transport.stop();
 }
-
 
 function Loop() {
   return (
