@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import * as Tone from 'tone';
 
-const synth = new Tone.MembraneSynth().toDestination();
+const plucky = new Tone.PluckSynth().toDestination();
 
 let bpmNumber = 80;
 
@@ -11,7 +11,7 @@ function bpm(bpmNumber) {
 
 function loopStart() {
   let loop = new Tone.Loop(time => {
-    synth.triggerAttackRelease("C2");
+    plucky.triggerAttackRelease("C4");
   }, '4n').start(0);
     Tone.Transport.start();
 };
