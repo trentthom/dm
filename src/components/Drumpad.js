@@ -15,7 +15,7 @@ class Drumpad extends React.Component {
       padState: 3, // Selecting drumpad groups from the backend
       sounds: [], // The drumpad group selected
       firstPadBank: 3,
-      lastPadBank: 5,
+      lastPadBank: '',
       padBankName: ''
     }
 
@@ -35,17 +35,16 @@ class Drumpad extends React.Component {
     })
   }
 
-  drumPadData(drumpadIndex = 0) { // Gets data from backend and puts it into state
+  drumPadData(padState) { // Gets data from backend and puts it into state
     axios.get(SERVER_DP).then((response) => {
-    const drumPadId = response.data[0].id
-    const drumBankLast = response.data[response.data.length - 1].id
-    const getBankName = response.data[drumpadIndex].name
-
-    console.log(response.data[drumpadIndex].name)
-    this.setState({padState: drumPadId})
-    this.setState({firstPadBank: drumPadId})
-    this.setState({lastPadBank: drumBankLast})
-    this.setState({padBankName: getBankName})
+    const firstPad = _.where(response.data,{ id: 3 })
+    const lastPad = response.data[response.data.length - 1].id;
+    const switchedToPad = _.where(response.data,{ id: this.state.padState })
+    const getSwitchedToBankName = switchedToPad.name
+    this.setState({padState: switchedToPad[0].id});
+    this.setState({firstPadBank: firstPad[0].id});
+    this.setState({lastPadBank: lastPad});
+    this.setState({padBankName: getSwitchedToBankName});
     })
   }
 
@@ -80,7 +79,7 @@ class Drumpad extends React.Component {
     document.addEventListener('keydown', this.onKeyDown);
     document.addEventListener('keyup', this.onKeyUp);
     this.soundsData(this.state.padState); // Runs the get request
-    this.drumPadData()
+    this.drumPadData(this.state.padState);
   }
 
   componentWillUnmount(){ // Not sure. Fill me in.
@@ -102,10 +101,8 @@ class Drumpad extends React.Component {
   changePad(event) {
     if(this.state.padState < this.state.lastPadBank) {
       this.setState({padState: this.state.padState + 1});
-
     } else {
       this.setState({padState: this.state.firstPadBank})
-
     }
     this.drumPadData(this.state.padState)
     this.soundsData(this.state.padState); // Runs the get request
