@@ -1,22 +1,23 @@
 import React, { Component } from "react";
 import * as Tone from 'tone';
 
-const plucky = new Tone.PluckSynth().toDestination();
+const plucky = new Tone.PluckSynth().toDestination(); // Plucky is a synth
 
-let bpmNumber = 80;
+let bpmNumber = 80; // Speed of the beat saved to variable... TODO: Make it interactive, slider?
 
-function bpm(bpmNumber) {
+function bpm(bpmNumber) { // Plugging the bpm into tone's little media player called tone.trasport
   Tone.Transport.bpm.value = bpmNumber;
 }
 
-function loopStart() {
-  let loop = new Tone.Loop(time => {
-    plucky.triggerAttackRelease("C4");
-  }, '4n').start(0); // fix
+let loop = new Tone.Loop((time) => {
+  plucky.triggerAttackRelease("C4"); // Synth note to loop.
+}, "4n").start(0); // fix
+
+function loopStart() { // Function to start the "player"
     Tone.Transport.start();
 };
 
-function loopStop() {
+function loopStop() { // Function to start the "player"
   Tone.Transport.stop();
 }
 
