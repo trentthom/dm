@@ -40,7 +40,7 @@ class Drumpad extends React.Component {
     const firstPad = _.where(response.data,{ id: 3 })
     const lastPad = response.data[response.data.length - 1].id;
     const switchedToPad = _.where(response.data,{ id: this.state.padState })
-    const getSwitchedToBankName = switchedToPad.name
+    const getSwitchedToBankName = switchedToPad[0].name
     this.setState({padState: switchedToPad[0].id});
     this.setState({firstPadBank: firstPad[0].id});
     this.setState({lastPadBank: lastPad});
