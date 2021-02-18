@@ -18,18 +18,16 @@ class Drumpad extends React.Component {
     this.playAudio = this.playAudio.bind(this); // Playing sounds on click
     this.onKeyDown = this.onKeyDown.bind(this); // Playing sounds on key press
     this.onKeyUp = this.onKeyUp.bind(this); // Stopping sounds on key release
-    this.pad2 = this.pad2.bind(this); // TODO: Changing the grou of selected drumpads
+    this.changePad = this.changePad.bind(this); // TODO: Changing the grou of selected drumpads
+    this.soundsData = this.soundsData.bind(this); // TODO: Changing the grou of selected drumpads
 
-    const soundsData = (padState) => { // Gets data from backend and puts it into state
-      axios.get(SERVER_URL).then((response) => {
-        console.log(response.data)
-        const padData = _.where(response.data,{ drumpad_id: padState })
-        this.setState({sounds: padData})
-      })
-    }
+  }
 
-    soundsData(this.state.padState); // Runs the get request
-
+  soundsData(padState) { // Gets data from backend and puts it into state
+    axios.get(SERVER_URL).then((response) => {
+      const padData = _.where(response.data,{ drumpad_id: padState })
+      this.setState({sounds: padData})
+    })
   }
 
   onKeyDown(event) {
@@ -62,6 +60,8 @@ class Drumpad extends React.Component {
   componentDidMount(){ // Not sure. Fill me in.
     document.addEventListener('keydown', this.onKeyDown);
     document.addEventListener('keyup', this.onKeyUp);
+    this.soundsData(this.state.padState); // Runs the get request
+    // console.log(this.state.sounds[1]);
   }
 
   componentWillUnmount(){ // Not sure. Fill me in.
@@ -80,8 +80,9 @@ class Drumpad extends React.Component {
     audioEl.play();
   }
 
-  pad2(event) {
-    this.setState({padState: 4});
+  changePad(event) {
+    this.setState({padState: 4}); // hardcoded '4'
+    this.soundsData(this.state.padState); // Runs the get request
   }
 
   render() {
@@ -90,7 +91,7 @@ class Drumpad extends React.Component {
         <div className="soundname">{ this.state.displayText }</div>
         <div className="row">
           {this.state.sounds.map((sound) => // Mapping the drum pads on the screen.
-            <button onClick={this.playAudio} key={sound.id} className="pinkButton" id={sound.name}> // Asigning
+            <button onClick={this.playAudio} key={sound.id} className="pinkButton" id={sound.name}>
               {sound.key_trigger}
               <audio className={sound.id}>
                 <source src={sound.url}></source>
@@ -102,7 +103,7 @@ class Drumpad extends React.Component {
           <Loop />
         </div>
         <div>
-          <button onClick={this.pad2}>Pad 2</button> //TODO
+          <button onClick={this.changePad}>Change Pad</button> //TODO
         </div>
       </div>
     )
