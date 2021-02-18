@@ -110,7 +110,7 @@ class Drumpad extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="realOutterDiv">
         <div className="outterdiv">
           <div className="soundname">{ this.state.displayText }
           </div>
@@ -127,11 +127,11 @@ class Drumpad extends React.Component {
           <div>
             <Loop />
           </div>
-          <div>
-            <button onClick={this.changePad}>Change Banks</button>
+          <div className="banksbutton">
+            <button className="moresoundsbutton"onClick={this.changePad}>More Sounds</button>
           </div>
         </div>
-        <div>
+        <div className="padname">
         {this.state.padBankName}
         </div>
       </div>
