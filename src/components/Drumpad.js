@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import axios from 'axios'
 import _ from 'underscore'
 import ReactDOM from 'react-dom'
-import Loop from './Loop';
+import Loop from './Loop.js'
 
 const SERVER_URL = 'https://drum-machine-server.herokuapp.com/sounds.json'
 
@@ -11,20 +11,25 @@ class Drumpad extends React.Component {
     super()
     this.state = {
       displayText: '',
+      padState: 3,
       sounds: []
     }
+
     this.playAudio = this.playAudio.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
+    this.pad2 = this.pad2.bind(this);
 
-    const soundsData = () => {
+    const soundsData = (padState) => {
       axios.get(SERVER_URL).then((response) => {
         console.log(response.data)
-        const ninePad = _.where(response.data,{ drumpad_id: 3})
-        this.setState({sounds: ninePad})
+        const padData = _.where(response.data,{ drumpad_id: padState })
+        this.setState({sounds: padData})
       })
     }
-    soundsData();
+
+    soundsData(this.state.padState);
+
   }
 
   onKeyDown(event) {
@@ -37,7 +42,7 @@ class Drumpad extends React.Component {
         this.setState({displayText: soundName});
         document.getElementById(sound.name).classList.add("active");
         audioEl.currentTime = 0;
-        audioEl.play()
+        audioEl.play();
       }
     })
   }
@@ -73,6 +78,10 @@ class Drumpad extends React.Component {
     this.setState({displayText: soundName});
     audioEl.currentTime = 0;
     audioEl.play();
+  }
+
+  pad2(event) {
+    this.setState({padState: 4});
   }
 
   render() {
