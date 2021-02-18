@@ -76,8 +76,8 @@ button:hover{
 }
 
 .outterdiv{
-  margin:0 auto;
-  max-width: 380px;
+  /* margin:0 auto;
+  max-width: 380px; */
   /* grid-template-columns: 150px 150px 150px;
   grid-template-rows: 150px 150px 150px; */
   background-color: rgb(74, 77, 94);
@@ -123,4 +123,34 @@ h1 {
   transition: all 0.35s ease-in-out;
   border-radius: 2px;
   margin: 5px;
+}
+.realOutterDiv{
+  margin:0 auto;
+  max-width: 380px;
+}
+.padname{
+  text-align: center;
+  line-height: 130px;
+  font-family: 'Monoton', cursive;
+  font-size: 30px;
+  color: #F30B0B;
+}
+
+.banksbutton{
+  text-align: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  color: teal;
+
+}
+
+.moresoundsbutton{
+  background-color: teal;
+  box-shadow: 0 10px 10px black, 0 1px 4px rgba(0, 0, 0, 0.24);
+  border: 1px solid #000;
+  order: 1px solid #000;
+  -webkit-transition: all 0.35s ease-in-out;
+  -moz-transition: all 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out;
+  border-radius: 2px;
 }
