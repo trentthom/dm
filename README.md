@@ -1,6 +1,11 @@
 # PLTDrum9
 ### Demo
 <https://plt-drum-9.herokuapp.com/>
+
+#### Try it on mobile!
+
+![alt text](public/image.png)
+
 ## Virtual drum machine
 Users can play sounds by clicking the pad squares or by pressing the corresponding letter on the keyboard.
 The sounds get their data via an API which links them to a url.
