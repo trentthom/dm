@@ -12,39 +12,48 @@ class Drumpad extends React.Component {
     super()
     this.state = {
       displayText: '', // For the drum machine screen
-      padState: 3, // Selecting drumpad groups from the backend
-      sounds: [], // The drumpad group selected
-      firstPadBank: 3,
-      lastPadBank: '',
-      padBankName: ''
+      padState: 0, // Selecting drumpad groups from the backend
+      sounds: [],
+      pads: [],
+      currentPad: {} // The drumpad group selected
+      // firstPadBank: 3,
+      // lastPadBank: '',
+      // padBankName: ''
     }
 
     this.playAudio = this.playAudio.bind(this); // Playing sounds on click
     this.onKeyDown = this.onKeyDown.bind(this); // Playing sounds on key press
     this.onKeyUp = this.onKeyUp.bind(this); // Stopping sounds on key release
+    this.changePadState = this.changePadState.bind(this); // this cycles through pad state
     this.changePad = this.changePad.bind(this); // TODO: Changing the grou of selected drumpads
     this.soundsData = this.soundsData.bind(this); // TODO: Changing the grou of selected drumpads
     this.drumPadData = this.drumPadData.bind(this)
 
   }
 
-  soundsData(padState) { // Gets data from backend and puts it into state
+  soundsData() { // Gets data from backend and puts it into state
     axios.get(SERVER_URL).then((response) => {
-      const padData = _.where(response.data,{ drumpad_id: padState })
+      const drumpadId = this.state.currentPad.id
+      const padData = _.where(response.data,{ drumpad_id: drumpadId })
       this.setState({sounds: padData})
     })
   }
 
   drumPadData(padState) { // Gets data from backend and puts it into state
+    console.log("pad state received by drumpad data", padState);
     axios.get(SERVER_DP).then((response) => {
-    const firstPad = _.where(response.data,{ id: 3 })
-    const lastPad = response.data[response.data.length - 1].id;
-    const switchedToPad = _.where(response.data,{ id: this.state.padState })
-    const getSwitchedToBankName = switchedToPad[0].name
-    this.setState({padState: switchedToPad[0].id});
-    this.setState({firstPadBank: firstPad[0].id});
-    this.setState({lastPadBank: lastPad});
-    this.setState({padBankName: getSwitchedToBankName});
+    this.setState({pads: response.data});
+    // this.setState({padState: response.data[0].id});
+    this.setState({currentPad: response.data[padState]})
+
+    // const firstPad = _.where(response.data,{ id: 3 })
+    // const lastPad = response.data[response.data.length - 1].id;
+    // const switchedToPad = _.where(response.data,{ id: this.state.padState })
+    // const getSwitchedToBankName = switchedToPad[0].name
+    // this.setState({padState: switchedToPad[0].id});
+    // this.setState({firstPadBank: firstPad[0].id});
+    // this.setState({lastPadBank: lastPad});
+    // this.setState({padBankName: getSwitchedToBankName});
     })
   }
 
@@ -78,8 +87,8 @@ class Drumpad extends React.Component {
   componentDidMount(){ // Not sure. Fill me in.
     document.addEventListener('keydown', this.onKeyDown);
     document.addEventListener('keyup', this.onKeyUp);
-    this.soundsData(this.state.padState); // Runs the get request
     this.drumPadData(this.state.padState);
+    this.soundsData(); // Runs the get request
   }
 
   componentWillUnmount(){ // Not sure. Fill me in.
@@ -98,14 +107,22 @@ class Drumpad extends React.Component {
     audioEl.play();
   }
 
-  changePad(event) {
-    if(this.state.padState < this.state.lastPadBank) {
+  changePadState() {
+    if(this.state.padState < this.state.pads.length - 1) {
+      console.log("before incrementing padstate", this.state.padState);
       this.setState({padState: this.state.padState + 1});
+      console.log("button imcrementing pad state", this.state.padState);
     } else {
-      this.setState({padState: this.state.firstPadBank})
+      this.setState({padState: 0})
+      console.log("button reseting pad state", this.state.padState);
     }
+    this.changePad()
+  }
+
+  changePad() {
+    console.log("pad state sent to drumpad data function",this.state.padState);
     this.drumPadData(this.state.padState)
-    this.soundsData(this.state.padState); // Runs the get request
+    this.soundsData(); // Runs the get request
   }
 
   render() {
@@ -128,11 +145,11 @@ class Drumpad extends React.Component {
             <Loop />
           </div>
           <div className="banksbutton">
-            <button className="moresoundsbutton"onClick={this.changePad}>More Sounds</button>
+            <button className="moresoundsbutton"onClick={this.changePadState}>More Sounds</button>
           </div>
         </div>
         <div className="padname">
-        {this.state.padBankName}
+        {this.state.currentPad.name}
         </div>
       </div>
     )
