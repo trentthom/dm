@@ -16,17 +16,14 @@ class Drumpad extends React.Component {
       sounds: [],
       pads: [],
       currentPad: {} // The drumpad group selected
-      // firstPadBank: 3,
-      // lastPadBank: '',
-      // padBankName: ''
     }
 
     this.playAudio = this.playAudio.bind(this); // Playing sounds on click
     this.onKeyDown = this.onKeyDown.bind(this); // Playing sounds on key press
     this.onKeyUp = this.onKeyUp.bind(this); // Stopping sounds on key release
     this.changePadState = this.changePadState.bind(this); // this cycles through pad state
-    this.changePad = this.changePad.bind(this); // TODO: Changing the grou of selected drumpads
-    this.soundsData = this.soundsData.bind(this); // TODO: Changing the grou of selected drumpads
+    this.changePad = this.changePad.bind(this); 
+    this.soundsData = this.soundsData.bind(this);
     this.drumPadData = this.drumPadData.bind(this)
 
   }
@@ -43,17 +40,7 @@ class Drumpad extends React.Component {
     console.log("pad state received by drumpad data", padState);
     axios.get(SERVER_DP).then((response) => {
     this.setState({pads: response.data});
-    // this.setState({padState: response.data[0].id});
     this.setState({currentPad: response.data[padState]})
-
-    // const firstPad = _.where(response.data,{ id: 3 })
-    // const lastPad = response.data[response.data.length - 1].id;
-    // const switchedToPad = _.where(response.data,{ id: this.state.padState })
-    // const getSwitchedToBankName = switchedToPad[0].name
-    // this.setState({padState: switchedToPad[0].id});
-    // this.setState({firstPadBank: firstPad[0].id});
-    // this.setState({lastPadBank: lastPad});
-    // this.setState({padBankName: getSwitchedToBankName});
     })
   }
 
